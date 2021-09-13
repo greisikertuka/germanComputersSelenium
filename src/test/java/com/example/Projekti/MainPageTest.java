@@ -1,41 +1,43 @@
 package com.example.Projekti;
 
+import com.example.Projekti.page.*;
+import com.example.Projekti.utils.WebDriverFactory;
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MainPageTest {
     private WebDriver driver;
-    private MainPage mainPage;
-    private Register register;
-    private Login login;
-    private NoteBooks notebooks;
-    private MyAccount myAccount;
-    private ShoppingCart shoppingCart;
+    private ChangeInformation changeInformation =new ChangeInformation();
+    private HomePage homePage = new HomePage();
+    private LoggedInPage loggedInPage = new LoggedInPage();
+    private LoginPage loginPage = new LoginPage();
+    private Product product = new Product();
+    private RegisterPage registerPage=new RegisterPage();
+    private Shop shop = new Shop();
+    private ShoppingCart shoppingCart = new ShoppingCart();
+    private XiaomiPhones xiaomiPhones = new XiaomiPhones();
     private String email;
     private String password;
     private WebDriverWait wait;
 
     @BeforeAll
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver","driver\\chromedriver.exe");
-        driver = new ChromeDriver();
+        driver= WebDriverFactory.getInstance().getDriver();
         driver.manage().window().maximize();
-        driver.get("https://demo.nopcommerce.com/");
+        homePage.navigateToHomePage();
         wait= new WebDriverWait(driver, 4);
-        email="greisikertuka@gmail.com";
-        password="Lagertha123";
-        mainPage = new MainPage(driver);
-        login = new Login(driver);
-        notebooks=new NoteBooks(driver);
-        shoppingCart=new ShoppingCart(driver);
+        email="fabrizioromano@gmail.com";
+        password="Letsgo123";
     }
 
     @AfterAll
@@ -45,119 +47,134 @@ public class MainPageTest {
 
     @Order(1)
     @Test
-    public void register() throws InterruptedException {
-        register = new Register(driver);
-        mainPage.loginButton.click();
-        WebElement butoniRegjistrimit = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@class='button-1 register-button']")));
-        butoniRegjistrimit.click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//form[@action='/register?returnurl=%2F']"))));
-        System.out.println("Titulli i faqes i kapur nga webdriver eshte: " +
-               ""+driver.getTitle());
-        register.fillRegisterForm("Ragnar","Lothbrok","7","June","1980",email,password);
+    public void checkElements() throws InterruptedException {
+        //Navigation buttons
+        String [] s= {"Contact","Compare(0)","LogIn"};
+        ArrayList<String> expectedResults= new ArrayList<>(Arrays.asList(s));
+        wait.until(ExpectedConditions.visibilityOfAllElements(homePage.navbarLinks));
+        List<WebElement> list = homePage.navbarLinks;
+        ArrayList<String> actualResults=new ArrayList<String>() ;
+        for (int i = 0; i < list.size(); i++) {
+            actualResults.add(list.get(i).getText().replace(" ",""));
+        }
+        Assert.assertEquals(actualResults,expectedResults);
 
-        try{
-            wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//*[contains(text(),'Your registration completed')]"))));
-            System.out.println("Regjistrimi u ruajt me sukses!");
-            WebElement logoutButton = wait.until(ExpectedConditions.visibilityOf(mainPage.logoutButton));
-            logoutButton.click();
+        //Check categories
+        actualResults = new ArrayList<>();
+
+        wait.until(ExpectedConditions.visibilityOfAllElements(homePage.navbarLinks));
+        list = homePage.categories;
+
+        for (int i = 0; i < list.size(); i++) {
+            actualResults.add(list.get(i).getText().replace(" ",""));
         }
-        catch(Exception e){
-            try {
-                WebElement emailExists=wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[contains(text(),'The specified email already exists')]"))));
-                System.out.println("Ka nje llogari te lidhur me kete email!");
-            }
-            catch(Exception ex){
-                System.out.println("Regjistrimi ishte i pasuksesshem, pasi ka problem!");
-            }
+
+        String [] str= {"Telefona", "Tableta", "Laptope","Kompjutera" ,"Monitore&Projektore",
+                "Periferike","Hardware","Printer&POS","Networking"};
+
+        expectedResults= new ArrayList<>(Arrays.asList(str));
+
+        System.out.println(actualResults);
+        System.out.println(expectedResults);
+
+        for (int i = 0; i < expectedResults.size(); i++) {
+            Assert.assertEquals(expectedResults.get(i), actualResults.get(i));
         }
+
+        Assert.assertEquals(expectedResults.size(), actualResults.size()-2);
+
     }
+
 
     @Order(2)
     @Test
-    public void login(){
-        mainPage.loginButton.click();
-        login.fillLoginForm(email,password);
-        try{
-            wait.until(ExpectedConditions.visibilityOfElementLocated((By.xpath("//*[contains(text(),'Welcome to our store')]"))));
-            wait.until(ExpectedConditions.visibilityOf(mainPage.logoutButton));
-                System.out.println("U loguam me sukses!");
-            mainPage.logoutButton.click();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+    public void register(){
+        homePage.clickButton("Log in");
+        loginPage.registerButton.click();
+        registerPage.sendKeystoInputForm("Greisi","First Name");
+        registerPage.sendKeystoInputForm("Kertuka","Last Name");
+        registerPage.sendKeystoInputForm(email,"Email");
+        registerPage.sendKeystoInputForm(password,"Password");
+        registerPage.sendKeystoInputForm(password,"Confirm Password");
+        registerPage.clickButton("Accept policy");
+        registerPage.clickButton("Register");
+        registerPage.checkRegistrationSuccess();
     }
 
     @Order(3)
     @Test
-    public void myAccountTest(){
-        mainPage.loginButton.click();
-        login.fillLoginForm(email,password);
-        myAccount= new MyAccount(driver);
-        mainPage.myAccount.click();
-
-        myAccount.checkData('m',"Ragnar","Lothbrok",email, "" +
-                "Lufthansa Industry Solutions",7,6,1980);
-        mainPage.logoutButton.click();
+    public void login(){
+        homePage.clickButton("Log in");
+        loginPage.sendKeysEmail(email);
+        loginPage.sendKeysPassword(password);
+        loginPage.loginButton.click();
+        loginPage.checkLoginSuccess();
+        String[] s={"Greisi","Kertuka",email};
+        ArrayList<String> expectedResults=new ArrayList<>(Arrays.asList(s));
+        ArrayList<String> actualResults=loggedInPage.returnData();
+        Assert.assertEquals(actualResults,expectedResults);
+        loggedInPage.logoutButton.click();
     }
 
+
+    //Change login data
     @Order(4)
     @Test
-    public void dashboard() throws InterruptedException{
-        driver.get("https://demo.nopcommerce.com/");
-        Actions actions=new Actions(driver);
-        mainPage.hover("//ul[@class='top-menu notmobile']/li[1]/a[1]");
-        WebElement notebooksClick = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//ul[@class='top-menu notmobile']/li[1]/a[1]/following-sibling::ul/li[2]/a"))));
-        actions.click(notebooksClick).perform();
-
-        notebooks.checkURL(driver.getCurrentUrl());
-
-        notebooks.selectNumberOfProductsDisplayed(9);
-        Assertions.assertEquals(6,notebooks.numberOfElementsDisplayed());
-
-        notebooks.check16GB();
-        Assertions.assertEquals(1,notebooks.numberOfElementsDisplayed());
-
-        notebooks.check16GB();
-        Assertions.assertEquals(6,notebooks.numberOfElementsDisplayed());
-
-
-        notebooks.addToWishListById(2);
-        notebooks.addToWishListById(3);
-
-        notebooks.addToCartById(4);
-        notebooks.addToCartById(5);
-        notebooks.addToCartById(6);
-
-        notebooks.checkWishList(2);
-
-        notebooks.checkShoppingCart(3);
-
-        }
+    public void changeLoginData() {
+        homePage.clickButton("Log in");
+        loginPage.sendKeysEmail(email);
+        loginPage.sendKeysPassword(password);
+        loginPage.loginButton.click();
+        String[] s1={"Wout","Weghorst","433@gmail.com"};
+        List<String> list1=Arrays.asList(s1);
+        loggedInPage.changeData();
+        changeInformation.changeData(list1);
+        String[] s2={"Greisi","Kertuka",email};
+        List<String> list2=Arrays.asList(s2);
+        loggedInPage.changeData();
+        changeInformation.changeData(list2);
+        loggedInPage.logoutButton.click();
+    }
 
     @Order(5)
     @Test
-    public void shoppingCart() throws InterruptedException{
-        driver.get("https://demo.nopcommerce.com/");
-        Actions actions=new Actions(driver);
-        mainPage.hover(mainPage.shoppingCart);
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("div #flyout-cart"))));
-        WebElement goToCartButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[text()='Go to cart']")));
-        goToCartButton.click();
-
-        shoppingCart.checkURL(driver.getCurrentUrl());
-
-        shoppingCart.checkButtons("//*[text()='Update shopping cart' or text()='Continue shopping' or text()=' Estimate shipping '] ");
-
-        shoppingCart.checkPrice();
+    public void checkShoppingCartElements(){
+        //Kontrollojme nqs ruhen sic duhet elementet qe shtojme te shopping cart
+        homePage.hover("Telefona");
+        homePage.clickSubCategory("Xiaomi");
+        xiaomiPhones.addToCart(1);
+        xiaomiPhones.addToCart(2);
+        xiaomiPhones.checkCounter();
+        //Kontrolli nqs shfaqen butonat te Shopping cart
+        xiaomiPhones.hoverToShoppingCart();
+        xiaomiPhones.checkButtons();
     }
 
     @Order(6)
     @Test
-    public void emptyShoppingCart() throws InterruptedException {
-        shoppingCart.goToShoppingCart();
-        while(shoppingCart.elementsDisplayed()!=0)
-            shoppingCart.deleteFirstElement();
-        shoppingCart.shoppingCartEmptyCheck();
+    public void shoppingCartActions() {
+        //Check Shopping Cart Price
+        xiaomiPhones.goToXiaomiPhonesPage();
+        xiaomiPhones.addToCart(1);
+        xiaomiPhones.hoverToShoppingCart();
+        xiaomiPhones.ViewShoppingCart();
+        shoppingCart.checkPrices();
+        xiaomiPhones.goToXiaomiPhonesPage();
+        xiaomiPhones.hoverToShoppingCart();
+        xiaomiPhones.ViewShoppingCart();
+        shoppingCart.UpdateQuantity("increment");
     }
+
+    @Order(7)
+    @Test
+    public void feedback(){
+        homePage.clickButton("Dyqani");
+        shop.clickFirstItem();
+        product.reviewsButton.click();
+        product.sendKeystoInputForm("Greisi", "Name");
+        product.sendKeystoInputForm("Produkt i shkelqyer", "Comment");
+        product.addReviewButton.click();
+        product.reviewSuccess();
+    }
+
 }
