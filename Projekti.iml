@@ -46,6 +46,19 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" />
+        </SOURCES>
+        <jarDirectory url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:3.141.59" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-api:3.141.59" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-chrome-driver:3.141.59" level="project" />

@@ -15,40 +15,40 @@ import java.util.List;
 
 public class HomePage {
 
-    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
-    private Actions actions=new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
+    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
+    private Actions actions = new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
 
     public HomePage() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
     }
 
-    public void navigateToHomePage(){
+    public void navigateToHomePage() {
         driver.navigate().to("https://www.germancomputers.al/");
     }
 
-    public void hover(String s){
-        String s1="//ul[@class='dropdown-menu vertical-mega-menu']//*[contains(text(),'"+s+"')]";
-        WebElement element=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(s1)));
+    public void hover(String s) {
+        String s1 = "//ul[@class='dropdown-menu vertical-mega-menu']//*[contains(text(),'Telefona')]";
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(s1)));
         actions.moveToElement(element).perform();
     }
 
-    public void clickSubCategory(String subCategory){
-        String s="//ul[@class='dropdown-menu vertical-mega-menu']//*[contains(text(),'"+subCategory+"')]";
-        WebElement element= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(s)));
+    public void clickSubCategory(String subCategory) {
+        String s = "//ul[@class='dropdown-menu vertical-mega-menu']//*[contains(text(),'" + subCategory + "')]";
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(s)));
         element.click();
     }
 
-    public void clickButton(String button){
-        switch (button){
+    public void clickButton(String button) {
+        switch (button) {
             case "Log in":
-            wait.until(ExpectedConditions.elementToBeClickable(login));
-            login.click();
-            break;
+                wait.until(ExpectedConditions.elementToBeClickable(login));
+                login.click();
+                break;
             case "Dyqani":
-            wait.until(ExpectedConditions.elementToBeClickable(dyqaniButton));
-            dyqaniButton.click();
-            break;
+                wait.until(ExpectedConditions.elementToBeClickable(dyqaniButton));
+                dyqaniButton.click();
+                break;
         }
     }
 

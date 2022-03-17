@@ -13,9 +13,9 @@ import com.example.Projekti.utils.WebDriverFactory;
 
 public class RegisterPage {
 
-    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
-    private Actions actions=new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
+    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
+    private Actions actions = new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
 
     public RegisterPage() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
@@ -42,43 +42,48 @@ public class RegisterPage {
     @FindBy(css = "[for='privacy']")
     public static WebElement privacyTerms;
 
-    public void sendKeysFirstName(String s){
+    public void sendKeysFirstName(String s) {
         firstName.sendKeys(s);
     }
 
-    public void sendKeysLastName(String s){
+    public void sendKeysLastName(String s) {
         lastName.sendKeys(s);
     }
 
-    public void sendKeysEmail(String s){
+    public void sendKeysEmail(String s) {
         email.sendKeys(s);
     }
 
-    public void sendKeysPassword(String s){
+    public void sendKeysPassword(String s) {
         password.sendKeys(s);
     }
 
-    public void sendKeysConfirmPassword(String s){
+    public void sendKeysConfirmPassword(String s) {
         passwordConfirm.sendKeys(s);
     }
 
-    public void sendKeystoInputForm(String keys,String input){
-        switch (input){
-            case "First Name":sendKeysFirstName(keys);
-            break;
-            case "Last Name":sendKeysLastName(keys);
+    public void sendKeystoInputForm(String keys, String input) {
+        switch (input) {
+            case "First Name":
+                sendKeysFirstName(keys);
                 break;
-            case "Email":sendKeysEmail(keys);
+            case "Last Name":
+                sendKeysLastName(keys);
                 break;
-            case "Password":sendKeysPassword(keys);
+            case "Email":
+                sendKeysEmail(keys);
                 break;
-            case "Confirm Password":sendKeysConfirmPassword(keys);
+            case "Password":
+                sendKeysPassword(keys);
+                break;
+            case "Confirm Password":
+                sendKeysConfirmPassword(keys);
                 break;
         }
     }
 
-    public void clickButton(String button){
-        switch (button){
+    public void clickButton(String button) {
+        switch (button) {
             case "Accept policy":
                 wait.until(ExpectedConditions.elementToBeClickable(privacyTerms));
                 privacyTerms.click();
@@ -90,7 +95,7 @@ public class RegisterPage {
         }
     }
 
-    public void checkRegistrationSuccess(){
-        WebElement element=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='alert alert-success fade in']")));
+    public void checkRegistrationSuccess() {
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='alert alert-success fade in']")));
     }
 }

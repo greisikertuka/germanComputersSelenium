@@ -13,20 +13,21 @@ import java.util.List;
 
 public class ChangeInformation {
 
-    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
-    private Actions actions=new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
+    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
+    private Actions actions = new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
+
     public ChangeInformation() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
     }
 
-    public void changeData(List<String> list){
-         firstName.clear();
-         firstName.sendKeys(list.get(0));
-         lastName.clear();
-         lastName.sendKeys(list.get(1));
-         submit.click();
-         driver.get("https://www.germancomputers.al/account");
+    public void changeData(List<String> list) {
+        firstName.clear();
+        firstName.sendKeys(list.get(0));
+        lastName.clear();
+        lastName.sendKeys(list.get(1));
+        submit.click();
+        driver.get("https://www.germancomputers.al/account");
     }
 
     @FindBy(name = "first_name")

@@ -2,7 +2,6 @@ package com.example.Projekti;
 
 import com.example.Projekti.page.*;
 import com.example.Projekti.utils.WebDriverFactory;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,12 +16,12 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MainPageTest {
     private WebDriver driver;
-    private ChangeInformation changeInformation =new ChangeInformation();
+    private ChangeInformation changeInformation = new ChangeInformation();
     private HomePage homePage = new HomePage();
     private LoggedInPage loggedInPage = new LoggedInPage();
     private LoginPage loginPage = new LoginPage();
     private Product product = new Product();
-    private RegisterPage registerPage=new RegisterPage();
+    private RegisterPage registerPage = new RegisterPage();
     private Shop shop = new Shop();
     private ShoppingCart shoppingCart = new ShoppingCart();
     private XiaomiPhones xiaomiPhones = new XiaomiPhones();
@@ -32,16 +31,16 @@ public class MainPageTest {
 
     @BeforeAll
     public void setUp() {
-        driver= WebDriverFactory.getInstance().getDriver();
+        driver = WebDriverFactory.getInstance().getDriver();
         driver.manage().window().maximize();
         homePage.navigateToHomePage();
-        wait= new WebDriverWait(driver, 4);
-        email="fabrizioromano@gmail.com";
-        password="Letsgo123";
+        wait = new WebDriverWait(driver, 4);
+        email = "greisikertuka@gmail.com";
+        password = "Letsgo123";
     }
 
     @AfterAll
-    public void tearUp(){
+    public void tearUp() {
         driver.quit();
     }
 
@@ -49,15 +48,15 @@ public class MainPageTest {
     @Test
     public void checkElements() throws InterruptedException {
         //Navigation buttons
-        String [] s= {"Contact","Compare(0)","LogIn"};
-        ArrayList<String> expectedResults= new ArrayList<>(Arrays.asList(s));
+        String[] s = {"Contact", "Compare(0)", "LogIn"};
+        ArrayList<String> expectedResults = new ArrayList<>(Arrays.asList(s));
         wait.until(ExpectedConditions.visibilityOfAllElements(homePage.navbarLinks));
         List<WebElement> list = homePage.navbarLinks;
-        ArrayList<String> actualResults=new ArrayList<String>() ;
+        ArrayList<String> actualResults = new ArrayList<String>();
         for (int i = 0; i < list.size(); i++) {
-            actualResults.add(list.get(i).getText().replace(" ",""));
+            actualResults.add(list.get(i).getText().replace(" ", ""));
         }
-        Assert.assertEquals(actualResults,expectedResults);
+        Assertions.assertEquals(actualResults, expectedResults);
 
         //Check categories
         actualResults = new ArrayList<>();
@@ -66,36 +65,36 @@ public class MainPageTest {
         list = homePage.categories;
 
         for (int i = 0; i < list.size(); i++) {
-            actualResults.add(list.get(i).getText().replace(" ",""));
+            actualResults.add(list.get(i).getText().replace(" ", ""));
         }
 
-        String [] str= {"Telefona", "Tableta", "Laptope","Kompjutera" ,"Monitore&Projektore",
-                "Periferike","Hardware","Printer&POS","Networking"};
+        String[] str = {"Telefona", "Tableta", "Laptope", "Kompjutera", "Monitore&Projektore",
+                "Periferike", "Hardware", "Printer&POS", "Networking"};
 
-        expectedResults= new ArrayList<>(Arrays.asList(str));
+        expectedResults = new ArrayList<>(Arrays.asList(str));
 
         System.out.println(actualResults);
         System.out.println(expectedResults);
 
         for (int i = 0; i < expectedResults.size(); i++) {
-            Assert.assertEquals(expectedResults.get(i), actualResults.get(i));
+            Assertions.assertEquals(expectedResults.get(i), actualResults.get(i));
         }
 
-        Assert.assertEquals(expectedResults.size(), actualResults.size()-2);
+        Assertions.assertEquals(expectedResults.size(), actualResults.size() - 2);
 
     }
 
 
     @Order(2)
     @Test
-    public void register(){
+    public void register() {
         homePage.clickButton("Log in");
         loginPage.registerButton.click();
-        registerPage.sendKeystoInputForm("Greisi","First Name");
-        registerPage.sendKeystoInputForm("Kertuka","Last Name");
-        registerPage.sendKeystoInputForm(email,"Email");
-        registerPage.sendKeystoInputForm(password,"Password");
-        registerPage.sendKeystoInputForm(password,"Confirm Password");
+        registerPage.sendKeystoInputForm("Greisi", "First Name");
+        registerPage.sendKeystoInputForm("Kertuka", "Last Name");
+        registerPage.sendKeystoInputForm(email, "Email");
+        registerPage.sendKeystoInputForm(password, "Password");
+        registerPage.sendKeystoInputForm(password, "Confirm Password");
         registerPage.clickButton("Accept policy");
         registerPage.clickButton("Register");
         registerPage.checkRegistrationSuccess();
@@ -103,16 +102,16 @@ public class MainPageTest {
 
     @Order(3)
     @Test
-    public void login(){
+    public void login() {
         homePage.clickButton("Log in");
         loginPage.sendKeysEmail(email);
         loginPage.sendKeysPassword(password);
         loginPage.loginButton.click();
         loginPage.checkLoginSuccess();
-        String[] s={"Greisi","Kertuka",email};
-        ArrayList<String> expectedResults=new ArrayList<>(Arrays.asList(s));
-        ArrayList<String> actualResults=loggedInPage.returnData();
-        Assert.assertEquals(actualResults,expectedResults);
+        String[] s = {"Greisi", "Kertuka", email};
+        ArrayList<String> expectedResults = new ArrayList<>(Arrays.asList(s));
+        ArrayList<String> actualResults = loggedInPage.returnData();
+        Assertions.assertEquals(actualResults, expectedResults);
         loggedInPage.logoutButton.click();
     }
 
@@ -125,12 +124,12 @@ public class MainPageTest {
         loginPage.sendKeysEmail(email);
         loginPage.sendKeysPassword(password);
         loginPage.loginButton.click();
-        String[] s1={"Wout","Weghorst","433@gmail.com"};
-        List<String> list1=Arrays.asList(s1);
+        String[] s1 = {"Wout", "Weghorst", "433@gmail.com"};
+        List<String> list1 = Arrays.asList(s1);
         loggedInPage.changeData();
         changeInformation.changeData(list1);
-        String[] s2={"Greisi","Kertuka",email};
-        List<String> list2=Arrays.asList(s2);
+        String[] s2 = {"Greisi", "Kertuka", email};
+        List<String> list2 = Arrays.asList(s2);
         loggedInPage.changeData();
         changeInformation.changeData(list2);
         loggedInPage.logoutButton.click();
@@ -138,7 +137,7 @@ public class MainPageTest {
 
     @Order(5)
     @Test
-    public void checkShoppingCartElements(){
+    public void checkShoppingCartElements() {
         //Kontrollojme nqs ruhen sic duhet elementet qe shtojme te shopping cart
         homePage.hover("Telefona");
         homePage.clickSubCategory("Xiaomi");
@@ -167,7 +166,7 @@ public class MainPageTest {
 
     @Order(7)
     @Test
-    public void feedback(){
+    public void feedback() {
         homePage.clickButton("Dyqani");
         shop.clickFirstItem();
         product.reviewsButton.click();

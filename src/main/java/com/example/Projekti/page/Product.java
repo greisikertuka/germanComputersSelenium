@@ -13,9 +13,9 @@ import com.example.Projekti.utils.WebDriverFactory;
 
 public class Product {
 
-    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
-    private Actions actions=new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
+    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
+    private Actions actions = new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
 
     public Product() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
@@ -36,23 +36,26 @@ public class Product {
     @FindBy(name = "comment")
     public static WebElement comment;
 
-    public void sendKeysName(String s){
+    public void sendKeysName(String s) {
         name.sendKeys(s);
     }
 
-    public void sendKeysComment(String s){
+    public void sendKeysComment(String s) {
         comment.sendKeys(s);
     }
 
-    public void sendKeystoInputForm(String keys,String input){
-        switch (input){
-            case "Name":sendKeysName(keys);
-            break;
-            case "Comment":sendKeysComment(keys);
+    public void sendKeystoInputForm(String keys, String input) {
+        switch (input) {
+            case "Name":
+                sendKeysName(keys);
+                break;
+            case "Comment":
+                sendKeysComment(keys);
                 break;
         }
     }
-    public void reviewSuccess(){
+
+    public void reviewSuccess() {
         //WebElement element=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='alert alert-success fade in']")));
     }
 }
