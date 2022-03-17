@@ -10,40 +10,27 @@
     </content>
     <orderEntry type="jdk" jdkName="15" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/webdriverextensions-3.11.2.jar!/" />
+          <root url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" />
+        </SOURCES>
+        <jarDirectory url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/OneDrive/Desktop/Documents/WebDriverExtensions" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/opensaml-2.5.1-1.jar!/" />
+          <root url="file://$USER_HOME$/OneDrive/Desktop/Documents/TestMethod" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/jna-platform-4.0.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/junit-4.13.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/OneDrive/Desktop/Documents/TestMethod" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:3.141.59" level="project" />

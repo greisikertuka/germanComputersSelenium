@@ -15,25 +15,26 @@ import java.util.List;
 
 public class LoggedInPage {
 
-    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
-    private Actions actions=new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
+    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
+    private Actions actions = new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
+
     public LoggedInPage() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
     }
 
-    public ArrayList<String> returnData(){
-        String[]s =data.get(0).getText().split(" ");
-        ArrayList<String> arr=new ArrayList<String>();
+    public ArrayList<String> returnData() {
+        String[] s = data.get(0).getText().split(" ");
+        ArrayList<String> arr = new ArrayList<String>();
         arr.add(s[0]);
         arr.add(s[1]);
         arr.add(data.get(1).getText());
         return arr;
     }
 
-    public void changeData(){
-         wait.until(ExpectedConditions.elementToBeClickable(edit));
-         edit.click();
+    public void changeData() {
+        wait.until(ExpectedConditions.elementToBeClickable(edit));
+        edit.click();
     }
 
     @FindBy(xpath = "//div[@class='sidebar-menu']//a[@href='https://www.germancomputers.al/logout']")
