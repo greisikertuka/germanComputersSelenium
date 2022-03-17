@@ -15,31 +15,29 @@ import java.util.List;
 
 public class ShoppingCart {
 
-    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
-    private Actions actions = new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
+    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
+    private Actions actions=new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
 
     public ShoppingCart() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
     }
 
-    public void IncrementQuantity() {
+    public void IncrementQuantity(){
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(incrementQuantity));
         element.click();
     }
 
-    public void DecrementQuantity() {
+    public void DecrementQuantity(){
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(decrementQuantity));
         element.click();
     }
 
-    public void UpdateQuantity(String s) {
-        switch (s) {
-            case "increment":
-                IncrementQuantity();
+    public void UpdateQuantity(String s){
+        switch (s){
+            case "increment": IncrementQuantity();
                 break;
-            case "decrement":
-                DecrementQuantity();
+            case "decrement": DecrementQuantity();
                 break;
         }
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(updateFirst));
@@ -50,24 +48,24 @@ public class ShoppingCart {
         checkPrices();
     }
 
-    public void checkPrices() {
-        double sum = 0.0;
+    public void checkPrices(){
+        double sum=0.0;
         String s;
-        for (int i = 0; i < prices.size(); i++) {
-            s = prices.get(i).getText();
-            s = s.substring(1, s.length());
-            s = s.replace(",", "");
-            sum += Double.parseDouble(s);
+        for(int i=0;i<prices.size();i++){
+            s=prices.get(i).getText();
+            s=s.substring(1,s.length());
+            s=s.replace(",","");
+            sum+=Double.parseDouble(s);
         }
-        String tot = total.getText();
-        tot = tot.substring(1, tot.length());
-        tot = tot.replace(",", "");
-        double shuma = Double.parseDouble(tot);
+        String tot=total.getText();
+        tot=tot.substring(1,tot.length());
+        tot=tot.replace(",","");
+        double shuma=Double.parseDouble(tot);
         final double DELTA = 1e-15;
-        Assert.assertEquals(shuma, sum, DELTA);
+        Assert.assertEquals(shuma,sum,DELTA);
     }
 
-    @FindBy(xpath = "//table/tbody/tr/td/label[contains(text(),'Total')]/following-sibling::span")
+    @FindBy(xpath="//table/tbody/tr/td/label[contains(text(),'Total')]/following-sibling::span")
     private static List<WebElement> prices;
 
     @FindBy(xpath = "//div[@class='cart-total']//span[contains(text(),'Total')]/span")

@@ -13,39 +13,35 @@ import com.example.Projekti.utils.WebDriverFactory;
 
 public class LoginPage {
 
-    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
-    private Actions actions = new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
-
+    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
+    private Actions actions=new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
     public LoginPage() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
     }
 
-    public void navigateToLoginPage() {
+    public void navigateToLoginPage(){
         driver.navigate().to("https://www.germancomputers.al/login");
     }
 
-    public void sendKeysEmail(String s) {
+    public void sendKeysEmail(String s){
         email.sendKeys(s);
     }
 
-    public void sendKeysPassword(String s) {
+    public void sendKeysPassword(String s){
         password.sendKeys(s);
     }
 
-    public void sendKeystoInputForm(String keys, String input) {
-        switch (input) {
-            case "Email":
-                sendKeysEmail(keys);
+    public void sendKeystoInputForm(String keys,String input){
+        switch (input){
+            case "Email":sendKeysEmail(keys);
                 break;
-            case "Password":
-                sendKeysPassword(keys);
+            case "Password":sendKeysPassword(keys);
                 break;
         }
     }
-
-    public void checkLoginSuccess() {
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='top-nav']//*[text()='My Account']")));
+    public void checkLoginSuccess(){
+        WebElement element=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='top-nav']//*[text()='My Account']")));
     }
 
     @FindBy(css = ".register")
@@ -58,7 +54,7 @@ public class LoginPage {
     public static WebElement password;
 
     @FindBy(xpath = "//button[contains(text(),'Login')]")
-    public static WebElement loginButton;
+    public static  WebElement loginButton;
 
     @FindBy(css = "label[for='remember']")
     public static WebElement remember;
