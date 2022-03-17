@@ -16,15 +16,15 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MainPageTest {
     private WebDriver driver;
-    private ChangeInformation changeInformation = new ChangeInformation();
-    private HomePage homePage = new HomePage();
-    private LoggedInPage loggedInPage = new LoggedInPage();
-    private LoginPage loginPage = new LoginPage();
-    private Product product = new Product();
-    private RegisterPage registerPage = new RegisterPage();
-    private Shop shop = new Shop();
-    private ShoppingCart shoppingCart = new ShoppingCart();
-    private XiaomiPhones xiaomiPhones = new XiaomiPhones();
+    private final ChangeInformation changeInformation = new ChangeInformation();
+    private final HomePage homePage = new HomePage();
+    private final LoggedInPage loggedInPage = new LoggedInPage();
+    private final LoginPage loginPage = new LoginPage();
+    private final Product product = new Product();
+    private final RegisterPage registerPage = new RegisterPage();
+    private final Shop shop = new Shop();
+    private final ShoppingCart shoppingCart = new ShoppingCart();
+    private final XiaomiPhones xiaomiPhones = new XiaomiPhones();
     private String email;
     private String password;
     private WebDriverWait wait;
@@ -46,26 +46,26 @@ public class MainPageTest {
 
     @Order(1)
     @Test
-    public void checkElements() throws InterruptedException {
+    public void checkElements() {
         //Navigation buttons
         String[] s = {"Contact", "Compare(0)", "LogIn"};
         ArrayList<String> expectedResults = new ArrayList<>(Arrays.asList(s));
-        wait.until(ExpectedConditions.visibilityOfAllElements(homePage.navbarLinks));
-        List<WebElement> list = homePage.navbarLinks;
-        ArrayList<String> actualResults = new ArrayList<String>();
-        for (int i = 0; i < list.size(); i++) {
-            actualResults.add(list.get(i).getText().replace(" ", ""));
+        wait.until(ExpectedConditions.visibilityOfAllElements(HomePage.navbarLinks));
+        List<WebElement> list = HomePage.navbarLinks;
+        ArrayList<String> actualResults = new ArrayList<>();
+        for (WebElement webElement : list) {
+            actualResults.add(webElement.getText().replace(" ", ""));
         }
         Assertions.assertEquals(actualResults, expectedResults);
 
         //Check categories
         actualResults = new ArrayList<>();
 
-        wait.until(ExpectedConditions.visibilityOfAllElements(homePage.navbarLinks));
-        list = homePage.categories;
+        wait.until(ExpectedConditions.visibilityOfAllElements(HomePage.navbarLinks));
+        list = HomePage.categories;
 
-        for (int i = 0; i < list.size(); i++) {
-            actualResults.add(list.get(i).getText().replace(" ", ""));
+        for (WebElement webElement : list) {
+            actualResults.add(webElement.getText().replace(" ", ""));
         }
 
         String[] str = {"Telefona", "Tableta", "Laptope", "Kompjutera", "Monitore&Projektore",
@@ -89,7 +89,7 @@ public class MainPageTest {
     @Test
     public void register() {
         homePage.clickButton("Log in");
-        loginPage.registerButton.click();
+        LoginPage.registerButton.click();
         registerPage.sendKeystoInputForm("Greisi", "First Name");
         registerPage.sendKeystoInputForm("Kertuka", "Last Name");
         registerPage.sendKeystoInputForm(email, "Email");
@@ -106,13 +106,13 @@ public class MainPageTest {
         homePage.clickButton("Log in");
         loginPage.sendKeysEmail(email);
         loginPage.sendKeysPassword(password);
-        loginPage.loginButton.click();
+        LoginPage.loginButton.click();
         loginPage.checkLoginSuccess();
         String[] s = {"Greisi", "Kertuka", email};
         ArrayList<String> expectedResults = new ArrayList<>(Arrays.asList(s));
         ArrayList<String> actualResults = loggedInPage.returnData();
         Assertions.assertEquals(actualResults, expectedResults);
-        loggedInPage.logoutButton.click();
+        LoggedInPage.logoutButton.click();
     }
 
 
@@ -123,7 +123,7 @@ public class MainPageTest {
         homePage.clickButton("Log in");
         loginPage.sendKeysEmail(email);
         loginPage.sendKeysPassword(password);
-        loginPage.loginButton.click();
+        LoginPage.loginButton.click();
         String[] s1 = {"Wout", "Weghorst", "433@gmail.com"};
         List<String> list1 = Arrays.asList(s1);
         loggedInPage.changeData();
@@ -132,7 +132,7 @@ public class MainPageTest {
         List<String> list2 = Arrays.asList(s2);
         loggedInPage.changeData();
         changeInformation.changeData(list2);
-        loggedInPage.logoutButton.click();
+        LoggedInPage.logoutButton.click();
     }
 
     @Order(5)
@@ -169,10 +169,10 @@ public class MainPageTest {
     public void feedback() {
         homePage.clickButton("Dyqani");
         shop.clickFirstItem();
-        product.reviewsButton.click();
+        Product.reviewsButton.click();
         product.sendKeystoInputForm("Greisi", "Name");
         product.sendKeystoInputForm("Produkt i shkelqyer", "Comment");
-        product.addReviewButton.click();
+        Product.addReviewButton.click();
         product.reviewSuccess();
     }
 
