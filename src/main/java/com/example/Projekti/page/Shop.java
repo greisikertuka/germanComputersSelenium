@@ -12,15 +12,15 @@ import com.example.Projekti.utils.WebDriverFactory;
 
 public class Shop {
 
-    private WebDriver driver=WebDriverFactory.getInstance().getDriver();
-    private Actions actions=new Actions(driver);
-    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver() , 3);
+    private WebDriver driver = WebDriverFactory.getInstance().getDriver();
+    private Actions actions = new Actions(driver);
+    private static WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getDriver(), 3);
 
     public Shop() {
         PageFactory.initElements(new WebDriverExtensionFieldDecorator(WebDriverFactory.getInstance().getDriver()), this);
     }
 
-    public void clickFirstItem(){
+    public void clickFirstItem() {
         WebElement element = wait.until(ExpectedConditions.visibilityOf(firstItem));
         element.click();
     }
